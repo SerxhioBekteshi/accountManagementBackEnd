@@ -20,6 +20,8 @@ namespace Service
         private readonly Lazy<IProductService> _productService;
         private readonly Lazy<IBankAccountService> _bankAccountService;
         private readonly Lazy<IUserService> _userService;
+        private readonly Lazy<ICurrencyService> _currencyService;
+        private readonly Lazy<ICurrencyBankService> _currencyBankService;
 
         public ServiceManager(IRepositoryManager repositoryManager
         , IDapperRepository dapperRepository
@@ -35,7 +37,8 @@ namespace Service
             _productService = new Lazy<IProductService>(() => new ProductService(logger, mapper, repositoryManager, dapperRepository));
             _bankAccountService = new Lazy<IBankAccountService>(() => new BankAccountService(logger, mapper, repositoryManager, dapperRepository));
             _userService = new Lazy<IUserService>(() => new UserService(logger, mapper, repositoryManager, dapperRepository));
-
+            _currencyService = new Lazy<ICurrencyService>(() => new CurrencyService(logger, mapper, repositoryManager, dapperRepository));
+            _currencyBankService = new Lazy<ICurrencyBankService>(() => new CurrencyBankService(logger, mapper, repositoryManager, dapperRepository));
 
         }
         public IEmployeeService EmployeeService => _employeesService.Value;
@@ -45,6 +48,8 @@ namespace Service
         public IProductService ProductService => _productService.Value;
         public IBankAccountService BankAccountService => _bankAccountService.Value;
         public IUserService UserService => _userService.Value;
+        public ICurrencyService CurrencyService => _currencyService.Value;
+        public ICurrencyBankService CurrencyBankService => _currencyBankService.Value;
 
     }
 }

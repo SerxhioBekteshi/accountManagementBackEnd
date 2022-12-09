@@ -12,11 +12,11 @@ namespace Service.Contracts
     public interface ICurrencyService
     {
         Task<PagedListResponse<IEnumerable<CurrencyDto>>> GetAllRecords(RequestTableBodyDto request);
-        Task<int> CreateRecord(CurrencyCreateDto createCompanyDTO, int userId); 
-        Task<bool> UpdateRecord(int id, CurrencyCreateDto updateCompanyDto, int userId);
+        Task<int> CreateRecord(CurrencyForCreationAndUpdateDto createCompanyDTO, int userId); 
+        Task<bool> UpdateRecord(int id, CurrencyForCreationAndUpdateDto updateCompanyDto, int userId);
         Task<bool> DeleteRecord(int id);
-        Task<CompanyDto> GetRecordById(int id);
-        Task<IEnumerable<CategoryDto>> GetCurrenciesForBankAccount(int bankAccountId);
+        Task<CurrencyDto> GetRecordById(int id);
+        Task<IEnumerable<BankAccountDto>> GetBanksForCurrency(int currencyId);
         Task<bool> PostCurrenciesForBank(int bankId, PostCurrenciesToBankDto postCurrenciesToBankId);
         Task<bool> DeleteRelationCurrency(int bankId, int currencyId);
     }

@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Entities.DTO
 {
-    public class PostCurrenciesToBankDto
+    public class CurrencyBankCreateUpdateDto
     {
-        public List<int?>? BankIds { get; set; }
+        public int? BankId { get; set; }
+        public int? CurrencyId { get; set; }
     }
 }

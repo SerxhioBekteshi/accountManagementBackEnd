@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace Entities.DTO
 {
-    public class CurrencyCreateDto
+    public class CurrencyForCreationAndUpdateDto
     {
         public string? Code { get; set; }
         public string? Description { get; set; }
         public decimal? ExchangeRate { get; set; }
+        public List<int?>? BankIds { get; set; }
 
     }
 }

@@ -45,7 +45,7 @@ namespace AccountManagement
 
             CreateMap<ProductForCreationAndUpdateDto, Product>().ReverseMap();
 
-            CreateMap<CurrencyCreateDto, Currency>().ReverseMap();
+            CreateMap<CurrencyForCreationAndUpdateDto, Currency>().ReverseMap();
 
             CreateMap<CategoryForCreationAndUpdateDto, Category>().ReverseMap();
 

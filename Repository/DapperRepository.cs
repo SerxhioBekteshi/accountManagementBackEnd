@@ -508,6 +508,22 @@ namespace Repository
             }
         }
 
+        public async Task<IEnumerable<BankAccountDto>> GetBanksForCurrencyId(int currencyId)
+        {
+            var query = @"
+               SELECT Currencies.Id, Currencies.Description, Currencies.Code, Currencies.ExchangeRate
+                FROM Currencies INNER JOIN CurrencyBank ON CurrencyBank.BankId = Currencies.Id WHERE CompanyCategory.currencyId = @currencyId
+             ";
+
+            using (var connection = _context.CreateConnection())
+            {
+                var result = await connection.QueryAsync<BankAccountDto>(query, new { currencyId });
+
+                return result;
+
+            }
+        }
+
         public async Task<IEnumerable<UserDtoManagerList>> GetAllManagers(AutocompleteDto autocomplete)
         {
             var top = autocomplete.Top;
@@ -645,6 +661,36 @@ namespace Repository
             using (var connection = _context.CreateConnection())
             {
                 var result = await connection.QuerySingleOrDefaultAsync<BankAccountDto>(query, new { bankAccountId });
+                return result;
+            }
+        }
+
+        public async Task<CurrencyDto> GetCurrencyById(int currencyId)
+        {
+            var query = @"
+            SELECT *
+            FROM (
+             SELECT 
+              c.Id
+              , c.Code
+              , c.Description
+              , c.ExchangeRate
+              , c.DateCreated
+              , c.CreatedBy
+              , CONCAT(uc.FirstName, ' ', uc.LastName) AS CreatedByFullName
+              , c.DateModified
+              , c.ModifiedBy
+              , CONCAT(um.FirstName, '', um.LastName) AS ModifiedByFullName
+             FROM Currencies c 
+              LEFT JOIN AspNetUsers uc ON c.CreatedBy = uc.Id
+              LEFT JOIN AspNetUsers um ON c.ModifiedBy = um.Id
+                    WHERE c.Id = @currencyId
+                ) result
+            ";
+
+            using (var connection = _context.CreateConnection())
+            {
+                var result = await connection.QuerySingleOrDefaultAsync<CurrencyDto>(query, new { currencyId });
                 return result;
             }
         }

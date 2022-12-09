@@ -43,7 +43,9 @@ namespace Contracts
         public Task<EmployeeDto> GetEmployeeById(int employeeId);
         public Task<ProductDto> GetProductById(int productId);
         public Task<BankAccountDto> GetBankAccountById(int bankAccountId);
+        public Task<CurrencyDto> GetCurrencyById(int currencyId);
         public Task<IEnumerable<CategoryDto>> GetCategoriesForCompanyId(int companyId);
+        public Task<IEnumerable<BankAccountDto>> GetBanksForCurrencyId(int currencyId);
         public Task<IEnumerable<CategoryListDto>> GetCategoriesAsList();
         public Task<IEnumerable<UserDtoManagerList>> GetAllManagers(AutocompleteDto autocomplete);
 

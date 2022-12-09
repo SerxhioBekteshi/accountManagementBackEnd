@@ -34,9 +34,22 @@ namespace Repository
             await FindByCondition(c => c.BankId.Equals(bankId), true)
         .ToListAsync();
 
+        public async Task<IEnumerable<CurrencyBank>> GetCurrencyBankAccountForCurrencyIdAsync(int currencyId) =>
+            await FindByCondition(c => c.CurrencyId.Equals(currencyId), true)
+        .ToListAsync();
+
         public async Task<IEnumerable<int?>> GetCurrenciesIdsForBankAccountId(int bankId) =>
             (IEnumerable<int?>)await FindByCondition(x => x.BankId.Equals(bankId))
             .Select(x => x.CurrencyId)
         .ToListAsync();
+        public async Task<IEnumerable<int?>> GetBankIdsForCurrencyId(int currencyId) =>
+            (IEnumerable<int?>)await FindByCondition(x => x.CurrencyId.Equals(currencyId))
+            .Select(x => x.CurrencyId)
+        .ToListAsync();
+
+        public async Task<CurrencyBank> GetRecordByCurrencyIdBankIdAsync(int currencyId, int bankId) =>
+        await FindByCondition(c => c.CurrencyId.Equals(currencyId) && c.BankId.Equals(bankId))
+        .SingleOrDefaultAsync();
+
     }
 }

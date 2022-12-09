@@ -97,7 +97,7 @@ namespace AccountManagement.Controllers
 
         [HttpPost]
 
-        public async Task<IActionResult> CreateCurrency([FromBody] CurrencyCreateDto currencyCreateDto)
+        public async Task<IActionResult> CreateCurrency([FromBody] CurrencyForCreationAndUpdateDto currencyCreateDto)
         {
             if(currencyCreateDto == null)
             {
@@ -124,7 +124,7 @@ namespace AccountManagement.Controllers
 
         [HttpPut("{id}")]
 
-        public async Task<IActionResult> UpdateCompanu(int id, [FromBody] CurrencyCreateDto currencyCreateDto)
+        public async Task<IActionResult> UpdateCompanu(int id, [FromBody] CurrencyForCreationAndUpdateDto currencyCreateDto)
         {
             if (currencyCreateDto == null)
             {

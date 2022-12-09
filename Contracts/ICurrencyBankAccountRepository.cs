@@ -16,6 +16,10 @@ namespace Contracts
         public Task<CurrencyBank> GetCurrencyByIdAsync(int bankAccountId);
         public Task<CurrencyBank> GetRecordByIdAsync(int id);
         public Task<IEnumerable<CurrencyBank>> GetCurrencyBankAccountForBankAccountIdAsync(int bankAccountid);
+        public Task<IEnumerable<CurrencyBank>> GetCurrencyBankAccountForCurrencyIdAsync(int currencyId);
         public Task<IEnumerable<int?>> GetCurrenciesIdsForBankAccountId(int bankAccountid);
+        public Task<IEnumerable<int?>> GetBankIdsForCurrencyId(int currencyId);
+        public Task<CurrencyBank> GetRecordByCurrencyIdBankIdAsync(int currencyId, int bankId);
+
     }
 }

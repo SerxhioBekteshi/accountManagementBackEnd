@@ -16,6 +16,6 @@ namespace Service.Contracts
         IBankAccountService BankAccountService { get; }
         IUserService UserService { get; }
         ICurrencyService CurrencyService { get; }
-
+        ICurrencyBankService CurrencyBankService { get; }
     }
 }

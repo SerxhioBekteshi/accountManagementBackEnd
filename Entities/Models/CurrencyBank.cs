@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Entities.Models
 {
-    public class CurrencyBank
+    public class CurrencyBank : BaseCreatedAndModified
     {
         [Key]
         public int Id { get; set; }
