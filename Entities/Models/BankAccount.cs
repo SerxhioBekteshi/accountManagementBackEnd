@@ -12,16 +12,16 @@ namespace Entities.Models
     {
         [Key]
         public int Id { get; set; }
-        public string Code { get; set; }
-        public string Name { get; set; }
         public decimal Balance{ get; set; }
         public Boolean IsActive { get; set; }
 
         [ForeignKey(nameof(User))]
         public int ClientId { get; set; }
         User User { get; set; }
-        public List<CurrencyBank>? CurrencyBankAccount { get; set; }
 
+        [ForeignKey(nameof(Bank))]
+        public int BankId { get; set; }
+        Bank Bank{ get; set; }
 
     }
 }

@@ -10,7 +10,8 @@ namespace Entities.DTO
     public class CategoryDto
     {
         public int? Id { get; set; } 
-        public string? Code { get; set; }    
+        public string? Code { get; set; }
+        public string? Image { get; set; }
         public string? Description { get; set; }
         public DateTime? DateCreated { get; set; }
         public int? CreatedBy { get; set; }
@@ -18,8 +19,6 @@ namespace Entities.DTO
         public DateTime? DateModified { get; set; }
         public int? ModifiedBy { get; set; }
         public string? ModifiedByFullName { get; set; }
-        public string? Image { get; set; }
-
 
     }
 }

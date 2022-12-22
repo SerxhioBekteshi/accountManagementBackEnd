@@ -9,6 +9,7 @@ using SendGrid.Helpers.Errors.Model;
 using Service.Contracts;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,7 +40,7 @@ namespace Service
         {
             try
             {
-                var currencyWithMetaData = await _dapperRepository.SearchCompanies(request);
+                var currencyWithMetaData = await _dapperRepository.SearchCurrencies(request);
                 var currencyDtoList = _mapper.Map<IEnumerable<CurrencyDto>>(currencyWithMetaData);
                 var columns = GetDataTableColumns();
 
@@ -69,6 +70,8 @@ namespace Service
         {
             try
             {
+
+
                 var currency = _mapper.Map<Currency>(currencyCreateDto);
 
                 currency.DateCreated = DateTime.UtcNow;
@@ -135,9 +138,29 @@ namespace Service
             }
         }
 
+        public async Task<IEnumerable<BankDto>> GetBanksFromCurrency(int currencyId)
+        {
+            try
+            {
+                var existingCurrency = await GetCurrencyIdAsync(currencyId);
+
+                if (existingCurrency is null)
+                    throw new NotFoundException(string.Format("Currency with id: {0} not found!", currencyId));
+
+                var companyCategories = await _dapperRepository.GetBanksForCurrencyId(currencyId);
+
+                return companyCategories;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(string.Format("{0}: {1}", nameof(GetBanksFromCurrency), ex.Message));
+                throw new BadRequestException(ex.Message);
+            }
+        }
+
         private List<DataTableColumn> GetDataTableColumns()
         {
-            var columns = GenerateDataTableColumn<CurrencyBank>.GetDataTableColumns();
+            var columns = GenerateDataTableColumn<CurrencyColumn>.GetDataTableColumns();
             return columns;
         }
         public async Task<CurrencyDto> GetRecordById(int id)
@@ -161,8 +184,7 @@ namespace Service
                 throw new BadRequestException(ex.Message);
             }
         }
-
-        public async Task<bool> PostBanksForCurrency(int currencyId, PostCurrenciesToBankDto postBanksToCurrencyId, int managerId)
+        public async Task<bool> PostBanksToCurrency(int currencyId, PostBanksToCurrencyDto postBanksToCurrencyId, int managerId)
         {
             try
             {
@@ -173,26 +195,26 @@ namespace Service
 
                 foreach (var bankId in postBanksToCurrencyId.BankIds)
                 {
-                    var existingCategory = await _repositoryManager.Category.GetCategory((int)currencyId);
-                    if (existingCategory is null)
+                    var existingBank = await _repositoryManager.Bank.GetBankAsync((int)bankId);
+                    if (existingBank is null)
                     {
-                        throw new NotFoundException(string.Format("Category with id: {0} not found! Please contact administrator!", bankId));
+                        throw new NotFoundException(string.Format("Bank with id: {0} not found", bankId));
                     }
                 }
 
                 _mapper.Map(postBanksToCurrencyId, existingCurrency);
 
-                var currencyBankIds = await _repositoryManager.CurrencyBank.GetBankIdsForCurrencyId(currencyId);
-                var banksToAdd = postBanksToCurrencyId?.BankIds?.Where(x => !currencyBankIds.Contains(x)).ToList();
+                var companyCategoryIds = await _repositoryManager.CurrencyBank.GetBankIdsForCurrencyId(currencyId);
+                var currencyToAdd = postBanksToCurrencyId?.BankIds?.Where(x => !companyCategoryIds.Contains(x)).ToList();
 
-                if (banksToAdd.Count == 0)
+                if (currencyToAdd.Count == 0)
                 {
                     await DeleteCurrencyBankRelationForCurrencyId(currencyId);
                     var categoriesToAdd2 = postBanksToCurrencyId?.BankIds.ToList();
                     CreateCurrencyBankRelation(categoriesToAdd2, currencyId, managerId);
                 }
                 else
-                    CreateCurrencyBankRelation(banksToAdd, currencyId, managerId);
+                    CreateCurrencyBankRelation(currencyToAdd, currencyId, managerId);
 
 
                 await _repositoryManager.SaveAsync();
@@ -201,12 +223,12 @@ namespace Service
             }
             catch (Exception ex)
             {
-                _logger.LogError(string.Format("{0}: {1}", nameof(PostBanksForCurrency), ex.Message));
+                _logger.LogError(string.Format("{0}: {1}", nameof(PostBanksToCurrency), ex.Message));
                 throw new BadRequestException(ex.Message);
             }
         }
 
-        public async Task<IEnumerable<BankAccountDto>> GetBanksForCurrency(int currencyId)
+        public async Task<IEnumerable<BankDto>> GetBanksForCurrency(int currencyId)
         {
             try
             {
@@ -300,13 +322,25 @@ namespace Service
 
                 if (existingCurrencyBank != null && existingCurrencyBank.Count() > 0 && updateCurrencyDto.BankIds is not null)
                 {
-                    var ids = existingCurrencyBank.Select(x => x.BankId).ToList();
-                    var check = ids.Except(updateCurrencyDto.BankIds);
 
-                    if (check.Count() != 0)
+                    var existingBankids = await _repositoryManager.CurrencyBank.GetBankIdsForCurrencyId(currencyId);
+                    var firstCheck = updateCurrencyDto.BankIds.Except(existingBankids).ToList();
+                    var secondCheck = existingBankids.Except(updateCurrencyDto.BankIds).ToList();
+
+                    if (firstCheck.Count() != 0 && firstCheck != secondCheck)
                     {
-                        await DeleteCurrencyBankRelationForCurrencyId(currencyId);
-                        CreateCurrencyBankRelation(updateCurrencyDto.BankIds, currencyId, userId);
+                        if (secondCheck.Count() != 0)
+                        {
+                            await _dapperRepository.DeleteBankCurrency(secondCheck.ToArray(), currencyId);
+                            CreateCurrencyBankRelation(firstCheck, currencyId, userId);
+                        }
+
+                        if (secondCheck.Count() == 0)
+                            CreateCurrencyBankRelation(firstCheck, currencyId, userId);
+                    }
+                    else if (firstCheck.Count() == 0 && firstCheck != secondCheck)
+                    {
+                        await _dapperRepository.DeleteBankCurrency(secondCheck.ToArray(), currencyId);
                     }
                 }
                 else
@@ -324,10 +358,10 @@ namespace Service
             }
         }
 
-        Task<bool> ICurrencyService.PostCurrenciesForBank(int bankId, PostCurrenciesToBankDto postCurrenciesToBankId)
-        {
-            throw new NotImplementedException();
-        }
+        //Task<bool> ICurrencyService.PostCurrenciesForBank(int bankId, PostCurrenciesToBankDto postCurrenciesToBankId)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         #endregion
     }

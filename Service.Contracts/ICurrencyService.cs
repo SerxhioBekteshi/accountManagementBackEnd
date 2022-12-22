@@ -16,8 +16,8 @@ namespace Service.Contracts
         Task<bool> UpdateRecord(int id, CurrencyForCreationAndUpdateDto updateCompanyDto, int userId);
         Task<bool> DeleteRecord(int id);
         Task<CurrencyDto> GetRecordById(int id);
-        Task<IEnumerable<BankAccountDto>> GetBanksForCurrency(int currencyId);
-        Task<bool> PostCurrenciesForBank(int bankId, PostCurrenciesToBankDto postCurrenciesToBankId);
+        Task<IEnumerable<BankDto>> GetBanksForCurrency(int currencyId);
+        Task<bool> PostBanksToCurrency(int currencyId, PostBanksToCurrencyDto postBanksToCurrency, int userId);
         Task<bool> DeleteRelationCurrency(int bankId, int currencyId);
     }
 }

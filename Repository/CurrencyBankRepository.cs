@@ -44,7 +44,7 @@ namespace Repository
         .ToListAsync();
         public async Task<IEnumerable<int?>> GetBankIdsForCurrencyId(int currencyId) =>
             (IEnumerable<int?>)await FindByCondition(x => x.CurrencyId.Equals(currencyId))
-            .Select(x => x.CurrencyId)
+            .Select(x => x.BankId)
         .ToListAsync();
 
         public async Task<CurrencyBank> GetRecordByCurrencyIdBankIdAsync(int currencyId, int bankId) =>

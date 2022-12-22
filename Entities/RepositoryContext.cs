@@ -22,7 +22,7 @@ namespace Entities
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());
             modelBuilder.ApplyConfiguration(new ProductConfiguration());
             modelBuilder.ApplyConfiguration(new CurrencyConfiguration());
-            modelBuilder.ApplyConfiguration(new BankAccountConfiguration());
+            modelBuilder.ApplyConfiguration(new BankConfiguration());
 
 
         }
@@ -34,6 +34,7 @@ namespace Entities
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Currency> Currencies{ get; set; }
+        public DbSet<Bank> Banks { get; set; }
         public DbSet<BankAccount> BankAccounts{ get; set; }
         public DbSet<BankTransaction> BankTransactions { get; set; }
         public DbSet<ProductSaleList> ProductSaleList { get; set; }

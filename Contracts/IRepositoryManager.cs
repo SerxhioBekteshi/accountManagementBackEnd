@@ -9,7 +9,7 @@ namespace Contracts
         IProductRepository Product { get; }
         ICategoryRepository Category { get; }
         ICurrencyRepository Currency { get; }
-        IBankAccountRepository BankAccount { get; }
+        IBankRepository Bank{ get; }
         IBankTransactionRepository BankTransaction{ get; }
         ISaleTransactionRepository SalesTransaction { get; }
         IProductSaleListRepository ProductSaleList { get; }
@@ -18,6 +18,7 @@ namespace Contracts
         ICompanyCategoryRepository CompanyCategory { get; }
         ICompanyProductRepository CompanyProduct { get; }
         ICurrencyBankAccountRepository CurrencyBank { get; }
+        IBankAccountRepository BankAccount { get; }
 
         Task SaveAsync();
         void Save();

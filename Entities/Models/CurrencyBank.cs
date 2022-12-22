@@ -17,6 +17,6 @@ namespace Entities.Models
         public Currency? Currency { get; set; }
         public int? BankId { get; set; }
         [ForeignKey("BankId")]
-        public BankAccount? BankAccount { get; set; }
+        public Bank? Bank { get; set; }
     }
 }

@@ -50,6 +50,25 @@ namespace AccountManagement.Controllers
 
         }
 
+        [HttpGet("banks/get-all")]
+        public async Task<IActionResult> GetBanks()
+        {
+            var categories = await _service.BankService.GetBanksAsAList();
+            var baseResponse = new BaseResponse<IEnumerable<BankListDto>, object>
+            {
+                result = true,
+                data = categories,
+                successMessage = "",
+                errorMessage = "",
+                StatusCode = 200,
+                Errors = "",
+
+            };
+
+            return Ok(baseResponse);
+
+        }
+
         [HttpPost("managers/autocomplete")]
         public async Task<IActionResult> GetManagers([FromBody] AutocompleteDto autocomplete)
         {

@@ -8,54 +8,38 @@ namespace AccountManagement
     {
         public MappingProfile()
         {
-            //ForMember(c => c.FullAddress, opt => opt.MapFrom(x => string.Join(" ", x.Address, x.Country)));
+            //Company
             CreateMap<Company, CompanyDto>().ReverseMap();
 
-            CreateMap<Employee, EmployeeDto>().ReverseMap();
-
-            CreateMap<Category, CategoryDto>().ReverseMap();
-
-            CreateMap<Category, CategoryListDto>().ReverseMap();
-
-
-            CreateMap<Product, ProductDto>().ReverseMap();
-
-            CreateMap<Currency, CurrencyDto>().ReverseMap();
-
-            CreateMap<BankAccount, BankAccountDto>().ReverseMap();
-
-            CreateMap<BankTransaction, BankTransactionDto>().ReverseMap();
-
-            CreateMap<SaleTransaction, SaleTransactionDto>().ReverseMap();
-
-            CreateMap<ProductSaleList, ProductSaleListDto>().ReverseMap();
-
-            CreateMap<Product, ProductSaleListDto>().ReverseMap();
-
-            CreateMap<ApplicationMenu, MenuDto>().ReverseMap();
-
-            CreateMap<User, UserDto>().ReverseMap();
+            CreateMap<CompanyForCreationAndUpdateDto, Company>().ReverseMap();
 
             CreateMap<Company, PostCategoriesToCompanyDto>().ReverseMap();
 
 
-            CreateMap<CompanyForCreationAndUpdateDto, Company>().ReverseMap();
+            //Employee
+            CreateMap<Employee, EmployeeDto>().ReverseMap();
 
             CreateMap<EmployeeForCreationAndUpdateDto, Employee>().ReverseMap();
 
-            CreateMap<ProductForCreationAndUpdateDto, Product>().ReverseMap();
 
-            CreateMap<CurrencyForCreationAndUpdateDto, Currency>().ReverseMap();
+            //Category
+            CreateMap<Category, CategoryDto>().ReverseMap();
+
+            CreateMap<Category, CategoryListDto>().ReverseMap();
 
             CreateMap<CategoryForCreationAndUpdateDto, Category>().ReverseMap();
 
-            CreateMap<BankAccountForCreationAndUpdateDto, BankAccount>().ReverseMap();
 
-            CreateMap<BankTransactionForCreateDto, BankTransaction>().ReverseMap();
+            //Product
+            CreateMap<Product, ProductDto>().ReverseMap();
 
-            CreateMap<ProductSaleListForCreationDto, ProductSaleList>().ReverseMap();
+            CreateMap<Product, ProductSaleListDto>().ReverseMap();
 
-            CreateMap<SaleTransactionForCreationDto, SaleTransaction>().ReverseMap();
+            CreateMap<ProductForCreationAndUpdateDto, Product>().ReverseMap();
+
+
+            //user
+            CreateMap<User, UserDto>().ReverseMap();
 
             CreateMap<UserForUpdateDto, User>().ReverseMap();
 
@@ -64,6 +48,45 @@ namespace AccountManagement
             CreateMap<UserForRegistrationDto, User>().ReverseMap();
 
             CreateMap<UserForAuthenticationDto, User>().ReverseMap();
+
+
+            //Currency
+            CreateMap<Currency, CurrencyDto>().ReverseMap();
+
+            CreateMap<CurrencyForCreationAndUpdateDto, Currency>().ReverseMap();
+
+            CreateMap<Currency, PostBanksToCurrencyDto>().ReverseMap();
+
+
+            //Bank
+            CreateMap<Bank, BankDto>().ReverseMap();
+
+            CreateMap<BankForCreationAndUpdateDto, Bank>().ReverseMap();
+
+
+            //BankTransaction
+            CreateMap<BankTransaction, BankTransactionDto>().ReverseMap();
+
+            CreateMap<BankTransactionForCreateDto, BankTransaction>().ReverseMap();
+
+
+            //SaleTransaction
+            CreateMap<SaleTransaction, SaleTransactionDto>().ReverseMap();
+
+            CreateMap<SaleTransactionForCreationDto, SaleTransaction>().ReverseMap();
+
+            CreateMap<ProductSaleList, ProductSaleListDto>().ReverseMap();
+
+            CreateMap<ProductSaleListForCreationDto, ProductSaleList>().ReverseMap();
+
+
+            //Menu
+            CreateMap<ApplicationMenu, MenuDto>().ReverseMap();
+
+
+            //BankAccount
+            CreateMap<BankAccount, BankAccountDto>().ReverseMap();
+
         }
     }
 }

@@ -4,14 +4,16 @@ using Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AccountManagement.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20221211152701_updateColumnCurrency")]
+    partial class updateColumnCurrency
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -103,54 +105,6 @@ namespace AccountManagement.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Entities.Models.Bank", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CreatedBy")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateModified")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("ModifiedBy")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Banks");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Code = "Credins",
-                            CreatedBy = 0,
-                            DateCreated = new DateTime(2022, 12, 11, 18, 59, 13, 26, DateTimeKind.Local).AddTicks(4071),
-                            Name = "Credins Bank"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Code = "BKT",
-                            CreatedBy = 0,
-                            DateCreated = new DateTime(2022, 12, 11, 18, 59, 13, 26, DateTimeKind.Local).AddTicks(4089),
-                            Name = "BKT Bank"
-                        });
-                });
-
             modelBuilder.Entity("Entities.Models.BankAccount", b =>
                 {
                     b.Property<int>("Id")
@@ -161,11 +115,11 @@ namespace AccountManagement.Migrations
                     b.Property<decimal>("Balance")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("BankId")
-                        .HasColumnType("int");
-
                     b.Property<int>("ClientId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("CreatedBy")
                         .HasColumnType("int");
@@ -182,9 +136,36 @@ namespace AccountManagement.Migrations
                     b.Property<int?>("ModifiedBy")
                         .HasColumnType("int");
 
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("BankAccounts");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Balance = 10000m,
+                            ClientId = 1,
+                            Code = "Credins",
+                            CreatedBy = 0,
+                            DateCreated = new DateTime(2022, 12, 11, 16, 27, 0, 341, DateTimeKind.Local).AddTicks(3107),
+                            IsActive = true,
+                            Name = "Credins Bank"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Balance = 10000m,
+                            ClientId = 1,
+                            Code = "BKT",
+                            CreatedBy = 0,
+                            DateCreated = new DateTime(2022, 12, 11, 16, 27, 0, 341, DateTimeKind.Local).AddTicks(3123),
+                            IsActive = true,
+                            Name = "BKT Bank"
+                        });
                 });
 
             modelBuilder.Entity("Entities.Models.BankTransaction", b =>
@@ -261,7 +242,7 @@ namespace AccountManagement.Migrations
                             Id = 1,
                             Code = "PC",
                             CreatedBy = 0,
-                            DateCreated = new DateTime(2022, 12, 11, 18, 59, 13, 25, DateTimeKind.Local).AddTicks(2436),
+                            DateCreated = new DateTime(2022, 12, 11, 16, 27, 0, 340, DateTimeKind.Local).AddTicks(2871),
                             Description = "PERSHKRIM TANI KOMPJUTERI "
                         },
                         new
@@ -269,7 +250,7 @@ namespace AccountManagement.Migrations
                             Id = 2,
                             Code = "CD",
                             CreatedBy = 0,
-                            DateCreated = new DateTime(2022, 12, 11, 18, 59, 13, 25, DateTimeKind.Local).AddTicks(2725),
+                            DateCreated = new DateTime(2022, 12, 11, 16, 27, 0, 340, DateTimeKind.Local).AddTicks(3126),
                             Description = "PERSHKRIM TANI DISK "
                         });
                 });
@@ -467,7 +448,7 @@ namespace AccountManagement.Migrations
                             Id = 1,
                             Code = "Bitcoin",
                             CreatedBy = 0,
-                            DateCreated = new DateTime(2022, 12, 11, 18, 59, 13, 26, DateTimeKind.Local).AddTicks(1311),
+                            DateCreated = new DateTime(2022, 12, 11, 16, 27, 0, 340, DateTimeKind.Local).AddTicks(9956),
                             Description = "Monedhe virtuale",
                             ExchangeRate = 20203m
                         },
@@ -476,7 +457,7 @@ namespace AccountManagement.Migrations
                             Id = 2,
                             Code = "Euro",
                             CreatedBy = 0,
-                            DateCreated = new DateTime(2022, 12, 11, 18, 59, 13, 26, DateTimeKind.Local).AddTicks(1337),
+                            DateCreated = new DateTime(2022, 12, 11, 16, 27, 0, 340, DateTimeKind.Local).AddTicks(9972),
                             Description = "Monedha e perbashket europiane",
                             ExchangeRate = 120m
                         });
@@ -665,7 +646,7 @@ namespace AccountManagement.Migrations
                             Id = 1,
                             CategoryId = 1,
                             CreatedBy = 0,
-                            DateCreated = new DateTime(2022, 12, 11, 18, 59, 13, 25, DateTimeKind.Local).AddTicks(7771),
+                            DateCreated = new DateTime(2022, 12, 11, 16, 27, 0, 340, DateTimeKind.Local).AddTicks(6993),
                             LongDescription = "hello world means hello world",
                             Name = "Sam Raiden",
                             Price = 100m,
@@ -676,7 +657,7 @@ namespace AccountManagement.Migrations
                             Id = 2,
                             CategoryId = 1,
                             CreatedBy = 0,
-                            DateCreated = new DateTime(2022, 12, 11, 18, 59, 13, 25, DateTimeKind.Local).AddTicks(8003),
+                            DateCreated = new DateTime(2022, 12, 11, 16, 27, 0, 340, DateTimeKind.Local).AddTicks(7180),
                             LongDescription = "hello Spring means hello Spring",
                             Name = "Andrea Mishtaku",
                             Price = 100m,
@@ -687,7 +668,7 @@ namespace AccountManagement.Migrations
                             Id = 3,
                             CategoryId = 2,
                             CreatedBy = 0,
-                            DateCreated = new DateTime(2022, 12, 11, 18, 59, 13, 25, DateTimeKind.Local).AddTicks(8010),
+                            DateCreated = new DateTime(2022, 12, 11, 16, 27, 0, 340, DateTimeKind.Local).AddTicks(7185),
                             LongDescription = "hello .NET means hello .NET",
                             Name = "Serxhio Bekteshi",
                             Price = 100m,
@@ -755,21 +736,21 @@ namespace AccountManagement.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "1784f185-3b66-4eb3-9c2e-e19ef700c6ed",
+                            ConcurrencyStamp = "44a74869-47cf-4571-a9c7-e023acb1ad37",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "1ab87cb4-40d8-42a8-a116-326ddb63834a",
+                            ConcurrencyStamp = "e2e4ae19-9c2f-4785-b632-4a8a086ef83d",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "57854f37-8175-41fa-9a52-0a2315eb75db",
+                            ConcurrencyStamp = "5b1c695b-fae0-4b0d-872c-5f9f8f4ea525",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -1034,7 +1015,7 @@ namespace AccountManagement.Migrations
 
             modelBuilder.Entity("Entities.Models.CurrencyBank", b =>
                 {
-                    b.HasOne("Entities.Models.Bank", "Bank")
+                    b.HasOne("Entities.Models.BankAccount", "BankAccount")
                         .WithMany("CurrencyBankAccount")
                         .HasForeignKey("BankId");
 
@@ -1042,7 +1023,7 @@ namespace AccountManagement.Migrations
                         .WithMany("CurrencyBankAccount")
                         .HasForeignKey("CurrencyId");
 
-                    b.Navigation("Bank");
+                    b.Navigation("BankAccount");
 
                     b.Navigation("Currency");
                 });
@@ -1139,7 +1120,7 @@ namespace AccountManagement.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Entities.Models.Bank", b =>
+            modelBuilder.Entity("Entities.Models.BankAccount", b =>
                 {
                     b.Navigation("CurrencyBankAccount");
                 });

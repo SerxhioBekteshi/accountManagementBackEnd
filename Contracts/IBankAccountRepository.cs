@@ -9,16 +9,15 @@ namespace Contracts
 {
     public interface IBankAccountRepository
     {
-        Task<IEnumerable<BankAccount>> GetAllBankAccountsAsync(int userId);
+        Task<IEnumerable<BankAccount>> GetAllBankAccountssAsync(int userId);
 
         Task<BankAccount> GetBankAccountAsync(int bankAccountId);
 
-        public void UpdateBankAccount(BankAccount BankAccount);
+        public void UpdateBankAccount(BankAccount bankAccount);
 
-        public void CreateBankAccount(BankAccount BankAccount);
+        public void CreateBankAccount(BankAccount bankAccount);
 
-        public void DeleteBankAccount(BankAccount BankAccount);
-
+        public void DeleteBankAccount(BankAccount bankAccount);
 
     }
 }

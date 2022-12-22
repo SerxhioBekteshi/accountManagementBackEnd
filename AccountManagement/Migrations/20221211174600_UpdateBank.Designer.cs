@@ -4,14 +4,16 @@ using Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AccountManagement.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20221211174600_UpdateBank")]
+    partial class UpdateBank
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -130,7 +132,7 @@ namespace AccountManagement.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Banks");
+                    b.ToTable("Bank");
 
                     b.HasData(
                         new
@@ -138,7 +140,7 @@ namespace AccountManagement.Migrations
                             Id = 1,
                             Code = "Credins",
                             CreatedBy = 0,
-                            DateCreated = new DateTime(2022, 12, 11, 18, 59, 13, 26, DateTimeKind.Local).AddTicks(4071),
+                            DateCreated = new DateTime(2022, 12, 11, 18, 45, 59, 732, DateTimeKind.Local).AddTicks(3867),
                             Name = "Credins Bank"
                         },
                         new
@@ -146,7 +148,7 @@ namespace AccountManagement.Migrations
                             Id = 2,
                             Code = "BKT",
                             CreatedBy = 0,
-                            DateCreated = new DateTime(2022, 12, 11, 18, 59, 13, 26, DateTimeKind.Local).AddTicks(4089),
+                            DateCreated = new DateTime(2022, 12, 11, 18, 45, 59, 732, DateTimeKind.Local).AddTicks(3881),
                             Name = "BKT Bank"
                         });
                 });
@@ -261,7 +263,7 @@ namespace AccountManagement.Migrations
                             Id = 1,
                             Code = "PC",
                             CreatedBy = 0,
-                            DateCreated = new DateTime(2022, 12, 11, 18, 59, 13, 25, DateTimeKind.Local).AddTicks(2436),
+                            DateCreated = new DateTime(2022, 12, 11, 18, 45, 59, 731, DateTimeKind.Local).AddTicks(3278),
                             Description = "PERSHKRIM TANI KOMPJUTERI "
                         },
                         new
@@ -269,7 +271,7 @@ namespace AccountManagement.Migrations
                             Id = 2,
                             Code = "CD",
                             CreatedBy = 0,
-                            DateCreated = new DateTime(2022, 12, 11, 18, 59, 13, 25, DateTimeKind.Local).AddTicks(2725),
+                            DateCreated = new DateTime(2022, 12, 11, 18, 45, 59, 731, DateTimeKind.Local).AddTicks(3538),
                             Description = "PERSHKRIM TANI DISK "
                         });
                 });
@@ -467,7 +469,7 @@ namespace AccountManagement.Migrations
                             Id = 1,
                             Code = "Bitcoin",
                             CreatedBy = 0,
-                            DateCreated = new DateTime(2022, 12, 11, 18, 59, 13, 26, DateTimeKind.Local).AddTicks(1311),
+                            DateCreated = new DateTime(2022, 12, 11, 18, 45, 59, 732, DateTimeKind.Local).AddTicks(1422),
                             Description = "Monedhe virtuale",
                             ExchangeRate = 20203m
                         },
@@ -476,7 +478,7 @@ namespace AccountManagement.Migrations
                             Id = 2,
                             Code = "Euro",
                             CreatedBy = 0,
-                            DateCreated = new DateTime(2022, 12, 11, 18, 59, 13, 26, DateTimeKind.Local).AddTicks(1337),
+                            DateCreated = new DateTime(2022, 12, 11, 18, 45, 59, 732, DateTimeKind.Local).AddTicks(1441),
                             Description = "Monedha e perbashket europiane",
                             ExchangeRate = 120m
                         });
@@ -665,7 +667,7 @@ namespace AccountManagement.Migrations
                             Id = 1,
                             CategoryId = 1,
                             CreatedBy = 0,
-                            DateCreated = new DateTime(2022, 12, 11, 18, 59, 13, 25, DateTimeKind.Local).AddTicks(7771),
+                            DateCreated = new DateTime(2022, 12, 11, 18, 45, 59, 731, DateTimeKind.Local).AddTicks(8072),
                             LongDescription = "hello world means hello world",
                             Name = "Sam Raiden",
                             Price = 100m,
@@ -676,7 +678,7 @@ namespace AccountManagement.Migrations
                             Id = 2,
                             CategoryId = 1,
                             CreatedBy = 0,
-                            DateCreated = new DateTime(2022, 12, 11, 18, 59, 13, 25, DateTimeKind.Local).AddTicks(8003),
+                            DateCreated = new DateTime(2022, 12, 11, 18, 45, 59, 731, DateTimeKind.Local).AddTicks(8285),
                             LongDescription = "hello Spring means hello Spring",
                             Name = "Andrea Mishtaku",
                             Price = 100m,
@@ -687,7 +689,7 @@ namespace AccountManagement.Migrations
                             Id = 3,
                             CategoryId = 2,
                             CreatedBy = 0,
-                            DateCreated = new DateTime(2022, 12, 11, 18, 59, 13, 25, DateTimeKind.Local).AddTicks(8010),
+                            DateCreated = new DateTime(2022, 12, 11, 18, 45, 59, 731, DateTimeKind.Local).AddTicks(8292),
                             LongDescription = "hello .NET means hello .NET",
                             Name = "Serxhio Bekteshi",
                             Price = 100m,
@@ -755,21 +757,21 @@ namespace AccountManagement.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "1784f185-3b66-4eb3-9c2e-e19ef700c6ed",
+                            ConcurrencyStamp = "38f2da2e-b31c-4f0c-9059-aa01575890e6",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "1ab87cb4-40d8-42a8-a116-326ddb63834a",
+                            ConcurrencyStamp = "25566238-b0ed-40b5-86c4-e3e6f16b2579",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "57854f37-8175-41fa-9a52-0a2315eb75db",
+                            ConcurrencyStamp = "fa868382-f2b1-4838-8449-74e17bd21c16",
                             Name = "User",
                             NormalizedName = "USER"
                         });

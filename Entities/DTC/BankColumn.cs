@@ -7,15 +7,11 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace Entities.DTC
 {
-    public class BankAccountColumn
+    public class BankColumn
     {
         public static string id = "Id";
         public static string code = "Code";
         public static string name = "Name";
-        public static string balance = "Balance";
-        public static string isActive = "isActive";
-        public static string currencyId = "CurrencyId";
-        public static string clientId = "clientId";
         public static string actions = null;
 
         public static string GetPropertyDescription(string propertyName)
@@ -28,14 +24,6 @@ namespace Entities.DTC
                     return name;
                 case nameof(code):
                     return code;
-                case nameof(balance):
-                    return balance;
-                case nameof(isActive):
-                    return isActive;
-                case nameof(currencyId):
-                    return currencyId;
-                case nameof(clientId):
-                    return clientId;
                 case nameof(actions):
                     return null;
                 default:
@@ -51,10 +39,6 @@ namespace Entities.DTC
                     return true;
                 case nameof(name):
                 case nameof(code):
-                case nameof(balance):
-                case nameof(isActive):
-                case nameof(currencyId):
-                case nameof(clientId):
                     return false;
                 case nameof(actions):
                     return false;
@@ -71,10 +55,6 @@ namespace Entities.DTC
                     return true;
                 case nameof(name):
                 case nameof(code):
-                case nameof(balance):
-                case nameof(isActive):
-                case nameof(currencyId):
-                case nameof(clientId):
                 case nameof(actions):
                     return false;
                 default:
@@ -88,10 +68,6 @@ namespace Entities.DTC
             {
                 case nameof(name):
                 case nameof(code):
-                case nameof(balance):
-                case nameof(isActive):
-                case nameof(currencyId):
-                case nameof(clientId):
                 default:
                     return 50;
             }
@@ -104,10 +80,6 @@ namespace Entities.DTC
                 case nameof(id):
                 case nameof(name):
                 case nameof(code):
-                case nameof(balance):
-                case nameof(isActive):
-                case nameof(currencyId):
-                case nameof(clientId):
                     return true;
                 case nameof(actions):
                     return false;
@@ -125,13 +97,6 @@ namespace Entities.DTC
                 case nameof(name):
                 case nameof(code):
                     return DataType.String;
-                case nameof(balance):
-                    return DataType.Decimal;
-                case nameof(isActive):
-                    return DataType.Boolean;
-                case nameof(currencyId):
-                case nameof(clientId):
-                    return DataType.Number;
                 case nameof(actions):
                     return DataType.Actions;
                 default:
@@ -148,7 +113,6 @@ namespace Entities.DTC
 
             object[] actionsData =
             {
-                new { name = "insert", icon= "fa-solid fa-plus", color = "lightblue" },
                 new { name = "edit", icon= "fa-regular fa-pen-to-square", color = "blue"},
                 new { name = "delete", icon= "fa-regular fa-trash-can", color = "red" },
 
@@ -159,10 +123,6 @@ namespace Entities.DTC
                 case nameof(id):
                 case nameof(name):
                 case nameof(code):
-                case nameof(balance):
-                case nameof(isActive):
-                case nameof(currencyId):
-                case nameof(clientId):
                     return null;
                 case nameof(actions):
                     return actionsData;

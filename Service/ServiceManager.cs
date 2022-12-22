@@ -18,10 +18,11 @@ namespace Service
         private readonly Lazy<ICategoryService> _categoryService;
         private readonly Lazy<ICompanyCategoryService> _companyCategoryService;
         private readonly Lazy<IProductService> _productService;
-        private readonly Lazy<IBankAccountService> _bankAccountService;
+        private readonly Lazy<IBankService> _bankService;
         private readonly Lazy<IUserService> _userService;
         private readonly Lazy<ICurrencyService> _currencyService;
         private readonly Lazy<ICurrencyBankService> _currencyBankService;
+        private readonly Lazy<IBankAccountService> _bankAccountService;
 
         public ServiceManager(IRepositoryManager repositoryManager
         , IDapperRepository dapperRepository
@@ -35,10 +36,11 @@ namespace Service
             _categoryService = new Lazy<ICategoryService>(() => new CategoryService(logger, mapper, repositoryManager, dapperRepository));
             _companyCategoryService = new Lazy<ICompanyCategoryService>(() => new CompanyCategoryService(logger, mapper, repositoryManager, dapperRepository));
             _productService = new Lazy<IProductService>(() => new ProductService(logger, mapper, repositoryManager, dapperRepository));
-            _bankAccountService = new Lazy<IBankAccountService>(() => new BankAccountService(logger, mapper, repositoryManager, dapperRepository));
+            _bankService = new Lazy<IBankService>(() => new BankService(logger, mapper, repositoryManager, dapperRepository));
             _userService = new Lazy<IUserService>(() => new UserService(logger, mapper, repositoryManager, dapperRepository));
             _currencyService = new Lazy<ICurrencyService>(() => new CurrencyService(logger, mapper, repositoryManager, dapperRepository));
             _currencyBankService = new Lazy<ICurrencyBankService>(() => new CurrencyBankService(logger, mapper, repositoryManager, dapperRepository));
+            _bankAccountService = new Lazy<IBankAccountService>(() => new BankAccountService(logger, mapper, repositoryManager, dapperRepository));
 
         }
         public IEmployeeService EmployeeService => _employeesService.Value;
@@ -46,10 +48,11 @@ namespace Service
         public ICategoryService CategoryService => _categoryService.Value;
         public ICompanyCategoryService CompanyCategoryService => _companyCategoryService.Value;
         public IProductService ProductService => _productService.Value;
-        public IBankAccountService BankAccountService => _bankAccountService.Value;
+        public IBankService BankService => _bankService.Value;
         public IUserService UserService => _userService.Value;
         public ICurrencyService CurrencyService => _currencyService.Value;
         public ICurrencyBankService CurrencyBankService => _currencyBankService.Value;
+        public IBankAccountService BankAccountService => _bankAccountService.Value;
 
     }
 }

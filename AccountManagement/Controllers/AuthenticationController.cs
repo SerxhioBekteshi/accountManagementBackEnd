@@ -56,7 +56,7 @@ namespace AccountManagement.Controllers
 
                     return BadRequest(ModelState);
                 }
-                await _userManager.AddToRoleAsync(user, userForRegistrationDto.Role);
+                await _userManager.AddToRoleAsync(user, "User");
                 await _repository.SaveAsync();
             }
             else

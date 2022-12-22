@@ -1,38 +1,38 @@
-﻿using Contracts;
+﻿using Entities.Models;
 using Entities;
-using Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Contracts;
 
 namespace Repository
 {
-    public class BankAccountRepository : RepositoryBase<BankAccount>, IBankAccountRepository
+    public class BankAccountRepository: RepositoryBase<BankAccount>, IBankAccountRepository
     {
         public BankAccountRepository(RepositoryContext repositoryContext) : base(repositoryContext)
         {
         }
 
-        public void CreateBankAccount(BankAccount BankAccount)
+        public void CreateBankAccount(BankAccount bankAccount)
         {
-            Create(BankAccount);
+            Create(bankAccount);
         }
-        public async Task<IEnumerable<BankAccount>> GetAllBankAccountsAsync(int userId) => 
-            FindByCondition(c => c.ClientId.Equals(userId)).OrderBy(c => c.Name).ToList();
+        public async Task<IEnumerable<BankAccount>> GetAllBankAccountssAsync(int userId) =>
+            FindAll();
 
-        public async Task<BankAccount> GetBankAccountAsync(int bankAccountId) => 
+        public async Task<BankAccount> GetBankAccountAsync(int bankAccountId) =>
             FindByCondition(c => c.Id == bankAccountId).SingleOrDefault();
 
-        public void UpdateBankAccount(BankAccount BankAccount)
+        public void UpdateBankAccount(BankAccount bankAccount)
         {
-            Update(BankAccount);
+            Update(bankAccount);
         }
 
-        public void DeleteBankAccount(BankAccount BankAccount)
+        public void DeleteBankAccount(BankAccount bankAccount)
         {
-            Delete(BankAccount);
+            Delete(bankAccount);
         }
     }
 }

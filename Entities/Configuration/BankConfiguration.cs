@@ -9,31 +9,25 @@ using System.Threading.Tasks;
 
 namespace Entities.Configuration
 {
-    public class BankAccountConfiguration : IEntityTypeConfiguration<BankAccount>
+    public class BankConfiguration : IEntityTypeConfiguration<Bank>
     {
 
-        public void Configure(EntityTypeBuilder <BankAccount> builder )
+        public void Configure(EntityTypeBuilder <Bank> builder )
         {
             builder.HasData(
-                new BankAccount
+                new Bank
                 { 
                      Id = 1,
                      Code = "Credins",
                      Name = "Credins Bank",
-                     ClientId = 1,
-                     Balance = 10000,
-                     IsActive = true,
                      DateCreated = DateTime.Now,
                      DateModified = null
                 },
-                 new BankAccount
+                 new Bank
                  {
                      Id = 2,
                      Code = "BKT",
                      Name = "BKT Bank",
-                     ClientId = 1,
-                     Balance = 10000,
-                     IsActive = true,
                      DateCreated = DateTime.Now,
                      DateModified = null
                  }

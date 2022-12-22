@@ -20,7 +20,7 @@ namespace Entities.Configuration
                     Id = 1,
                     Code = "Bitcoin",
                     Description = "Monedhe virtuale",
-                    ExhangeRate = 20203,
+                    ExchangeRate = 20203,
                     DateCreated = DateTime.Now,
                     DateModified = null,
 
@@ -30,7 +30,7 @@ namespace Entities.Configuration
                     Id = 2,
                     Code = "Euro",
                     Description = "Monedha e perbashket europiane",
-                    ExhangeRate = 120,
+                    ExchangeRate = 120,
                     DateCreated = DateTime.Now,
                     DateModified = null,
 

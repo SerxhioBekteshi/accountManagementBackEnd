@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Entities.DTO
 {
-    public class AddCategoriesToCompanyDto
+    public class BankListDto
     {
-        public int Id { get; set; }
-        public string Code { get; set; }
+        public int? value { get; set; }
+        public string? label { get; set; }
     }
 }

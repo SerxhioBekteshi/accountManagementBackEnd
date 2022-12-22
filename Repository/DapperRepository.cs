@@ -414,6 +414,46 @@ namespace Repository
             }
         }
 
+        public async Task<IEnumerable<CurrencyDto>> CurrencyTable(RequestTableBodyDto request)
+        {
+            var query = @"
+            SELECT *
+            FROM (
+	            SELECT 
+		            c.Id
+                    , c.Code
+		            , c.ExchangeRate
+		            , c.Description
+		            , c.DateCreated
+		            , c.CreatedBy
+		            , CONCAT(uc.FirstName, ' ', uc.LastName) AS CreatedByFullName
+		            , c.DateModified
+		            , c.ModifiedBy
+		            , CONCAT(um.FirstName, '', um.LastName) AS ModifiedByFullName
+	            FROM Currencies c 
+		            LEFT JOIN AspNetUsers uc ON c.CreatedBy = uc.Id
+		            LEFT JOIN AspNetUsers um ON c.ModifiedBy = um.Id
+                ) result
+            ";
+
+            string lookupSortNormalized = OrderQueryBuilder.NormalizeLookUpOrderBy(request.Sorting);
+            if (!string.IsNullOrWhiteSpace(lookupSortNormalized))
+                query += $" ORDER BY {lookupSortNormalized}";
+
+            using (var connection = _context.CreateConnection())
+            {
+                var result = await connection.QueryAsync<CurrencyDto>(query);
+                var searchTerm = request.SearchTerm;
+
+                if (searchTerm is not null)
+                {
+                    searchTerm = searchTerm.Trim().ToLower();
+                    result = result.Where(e => e.Description.ToLower().Contains(searchTerm) ||  e.Code.ToLower().Contains(searchTerm));
+                }
+                return result;
+            }
+        }
+
         public async Task<PagedList<EmployeeDto>> SearchEmployees(string userId, int companyId, RequestTableBodyDto request)
         {
             var result = await EmployeesTable(userId, companyId, request);
@@ -433,6 +473,12 @@ namespace Repository
             return PagedList<CompanyDto>.ToPagedList(result, request.PageNumber, request.PageSize);
         }
 
+        public async Task<PagedList<CurrencyDto>> SearchCurrencies(RequestTableBodyDto request)
+        {
+            var result = await CurrencyTable(request);
+            return PagedList<CurrencyDto>.ToPagedList(result, request.PageNumber, request.PageSize);
+        }
+
         public async Task<PagedList<ProductDto>> SearchProducts(RequestTableBodyDto request)
         {
             var result = await ProductTable(request);
@@ -443,6 +489,12 @@ namespace Repository
         {
             var result = await CompanyTablePerLoggedInManager(userId,request);
             return PagedList<CompanyDto>.ToPagedList(result, request.PageNumber, request.PageSize);
+        }
+
+        public async Task<PagedList<BankDto>> SearchBanks(RequestTableBodyDto request)
+        {
+            var result = await BanksTable(request);
+            return PagedList<BankDto>.ToPagedList(result, request.PageNumber, request.PageSize);
         }
 
         public async Task<IEnumerable<CategoryListDto>> GetCategoriesAsList()
@@ -461,13 +513,55 @@ namespace Repository
             }
         }
 
+        public async Task<IEnumerable<BankListDto>> GetBanksAsList()
+        {
+            var query = @"SELECT 
+		            b.Id AS value
+		            , b.Name AS label	        
+	            FROM Banks b";
+
+            using (var connection = _context.CreateConnection())
+            {
+                var result = await connection.QueryAsync<BankListDto>(query);
+
+                return result;
+
+            }
+        }
+
+        public async Task<IEnumerable<BankDto>> GetBanksPerUser(int userId)
+        {
+            var query = @"SELECT b.Id, b.Code, b.Name 
+	            FROM Banks b INNER JOIN BankAccounts ba on ba.BankId = b.Id WHERE ba.ClientId = @userId";
+
+            using (var connection = _context.CreateConnection())
+            {
+                var result = await connection.QueryAsync<BankDto>(query, new {userId});
+                return result;
+            }
+        }
 
 
-        public async Task<IEnumerable<BankAccountDto>> GetBankAccountsForLoggedUser(int userId, RequestTableBodyDto request)
+
+        public async Task<IEnumerable<BankDto>> BanksTable(RequestTableBodyDto request)
         {
             var query = @"
-               SELECT BankAccounts.Id, BankAccounts.Name, BankAccounts.Code,BankAccounts.Balance, BankAccounts.isActive, BankAccounts.ClientId, AspNetUsers.FirstName, AspNetUsers.LastName 
-                FROM BankAccounts INNER JOIN AspNetUsers ON BankAccounts.ClientId = AspNetUsers.Id WHERE BankAccounts.ClientId = @userId
+               SELECT *
+            FROM (
+	            SELECT 
+		            b.Id
+		            , b.Code
+		            , b.Name
+		            , b.DateCreated
+		            , b.CreatedBy
+		            , CONCAT(uc.FirstName, ' ', uc.LastName) AS CreatedByFullName
+		            , b.DateModified
+		            , b.ModifiedBy
+		            , CONCAT(um.FirstName, '', um.LastName) AS ModifiedByFullName
+	            FROM Banks b 
+		            LEFT JOIN AspNetUsers uc ON b.CreatedBy = uc.Id
+		            LEFT JOIN AspNetUsers um ON b.ModifiedBy = um.Id
+                ) result
              ";
 
             string lookupSortNormalized = OrderQueryBuilder.NormalizeLookUpOrderBy(request.Sorting);
@@ -476,15 +570,13 @@ namespace Repository
 
             using (var connection = _context.CreateConnection())
             {
-                var result = await connection.QueryAsync<BankAccountDto>(query, new { userId });
+                var result = await connection.QueryAsync<BankDto>(query);
                 var searchTerm = request.SearchTerm;
 
                 if (searchTerm is not null)
                 {
                     searchTerm = searchTerm.Trim().ToLower();
-                    result = result.Where(e => e.Name.ToLower().Contains(searchTerm) || e.Code.ToLower().Contains(searchTerm)
-                        || e.Balance.ToString().Contains(searchTerm)
-                    );
+                    result = result.Where(e => e.Name.ToLower().Contains(searchTerm) || e.Code.ToLower().Contains(searchTerm));
 
                 }
                 return result;
@@ -508,16 +600,16 @@ namespace Repository
             }
         }
 
-        public async Task<IEnumerable<BankAccountDto>> GetBanksForCurrencyId(int currencyId)
+        public async Task<IEnumerable<BankDto>> GetBanksForCurrencyId(int currencyId)
         {
             var query = @"
-               SELECT Currencies.Id, Currencies.Description, Currencies.Code, Currencies.ExchangeRate
-                FROM Currencies INNER JOIN CurrencyBank ON CurrencyBank.BankId = Currencies.Id WHERE CompanyCategory.currencyId = @currencyId
+               SELECT b.Id, b.Code, b.Name FROM Banks b 
+                INNER JOIN CurrencyBank ON CurrencyBank.BankId = b.Id WHERE CurrencyBank.currencyId = @currencyId
              ";
 
             using (var connection = _context.CreateConnection())
             {
-                var result = await connection.QueryAsync<BankAccountDto>(query, new { currencyId });
+                var result = await connection.QueryAsync<BankDto>(query, new { currencyId });
 
                 return result;
 
@@ -533,9 +625,7 @@ namespace Repository
                 INNER JOIN AspNetUserRoles ON AspNetUserRoles.UserId = AspNetUsers.Id 
                 INNER JOIN AspNetRoles ON AspNetRoles.Id = AspNetUserRoles.RoleId 
                 WHERE AspNetRoles.Id = 1 
-         
              ";
-
 
             using (var connection = _context.CreateConnection())
             {
@@ -562,6 +652,7 @@ namespace Repository
 	            SELECT 
 		            c.Id
 		            , c.Code
+                    , c.Image
 		            , c.Description
 		            , c.DateCreated
 		            , c.CreatedBy
@@ -654,13 +745,13 @@ namespace Repository
             }
         }
 
-        public async Task<BankAccountDto> GetBankAccountById(int bankAccountId)
+        public async Task<BankDto> GetBankById(int bankId)
         {
-            var query = @"SELECT * FROM BankAccounts b WHERE b.Id = @bankAccountId";
+            var query = @"SELECT * FROM Banks b WHERE b.Id = @bankId";
 
             using (var connection = _context.CreateConnection())
             {
-                var result = await connection.QuerySingleOrDefaultAsync<BankAccountDto>(query, new { bankAccountId });
+                var result = await connection.QuerySingleOrDefaultAsync<BankDto>(query, new { bankId });
                 return result;
             }
         }
@@ -692,6 +783,19 @@ namespace Repository
             {
                 var result = await connection.QuerySingleOrDefaultAsync<CurrencyDto>(query, new { currencyId });
                 return result;
+            }
+        }
+
+
+
+        public async Task<bool> DeleteBankCurrency(int?[] bankIds, int currencyId)
+        {
+            var query = @" DELETE FROM CurrencyBank
+                      WHERE BankId IN @bankIds AND CurrencyId=@currencyId";
+            using (var connection = _context.CreateConnection())
+            {
+                var result = await connection.ExecuteAsync(query, new { bankIds, currencyId });
+                return result > 0;
             }
         }
 

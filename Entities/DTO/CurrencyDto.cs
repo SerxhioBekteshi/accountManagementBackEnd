@@ -18,7 +18,7 @@ namespace Entities.DTO
         public DateTime? DateModified { get; set; }
         public int? ModifiedBy { get; set; }
         public string? ModifiedByFullName { get; set; }
-        public List<int?>? BankIds { get; set; }
+        public List<int?> BankIds { get; set; }
 
     }
 }

@@ -12,7 +12,7 @@ namespace Repository
         private ICategoryRepository _categoryRepository;
         private IProductRepository _productRepository;
         private ICurrencyRepository _currencyRepository;
-        private IBankAccountRepository _bankAccountRepository;
+        private IBankRepository _bankRepository;
         private IBankTransactionRepository _bankTransactionRepository;
         private ISaleTransactionRepository _salesTransactionRepository;
         private IProductSaleListRepository _productSaleListRepository;
@@ -21,6 +21,7 @@ namespace Repository
         private ICompanyCategoryRepository _companyCategoryRepository;
         private ICompanyProductRepository _companyProductRepository;
         private ICurrencyBankAccountRepository _currencyBankRepository;
+        private IBankAccountRepository _bankAccountRepository;
 
         public RepositoryManager(RepositoryContext repositoryContext)
         {
@@ -81,14 +82,14 @@ namespace Repository
             }
         }
         
-        public IBankAccountRepository BankAccount
+        public IBankRepository Bank
         {
             get
             {
-                if (_bankAccountRepository == null)
-                    _bankAccountRepository = new BankAccountRepository(_repositoryContext);
+                if (_bankRepository == null)
+                    _bankRepository = new BankRepository(_repositoryContext);
 
-                return _bankAccountRepository;
+                return _bankRepository;
             }
         }
 
@@ -177,6 +178,17 @@ namespace Repository
                     _currencyBankRepository = new CurrencyBankRepository(_repositoryContext);
 
                 return _currencyBankRepository;
+            }
+        }
+
+        public IBankAccountRepository BankAccount
+        {
+            get
+            {
+                if (_bankAccountRepository == null)
+                    _bankAccountRepository = new BankAccountRepository(_repositoryContext);
+
+                return _bankAccountRepository;
             }
         }
         public Task SaveAsync() => _repositoryContext.SaveChangesAsync();

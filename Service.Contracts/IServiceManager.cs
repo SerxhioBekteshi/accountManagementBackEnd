@@ -13,9 +13,11 @@ namespace Service.Contracts
         ICategoryService CategoryService { get; }
         ICompanyCategoryService CompanyCategoryService { get; }
         IProductService ProductService { get; }
-        IBankAccountService BankAccountService { get; }
+        IBankService BankService { get; }
         IUserService UserService { get; }
         ICurrencyService CurrencyService { get; }
         ICurrencyBankService CurrencyBankService { get; }
+        IBankAccountService BankAccountService { get; }
+
     }
 }

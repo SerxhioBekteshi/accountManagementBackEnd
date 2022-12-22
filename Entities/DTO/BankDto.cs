@@ -1,20 +1,16 @@
-﻿using Entities.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Entities.DTO
 {
-    public class BankAccountDto
+    public class BankDto
     {
-        public int Id { get; set; }
-        public decimal Balance { get; set; }
-        public Boolean IsActive { get; set; }
-        public int ClientId { get; set; }       
-        public int BankId { get; set; }
+        public int? Id { get; set; }
+        public string? Code { get; set; }
+        public string? Name { get; set; }
         public DateTime? DateCreated { get; set; }
         public int? CreatedBy { get; set; }
         public string? CreatedByFullName { get; set; }

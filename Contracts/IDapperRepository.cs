@@ -29,25 +29,32 @@ namespace Contracts
         public Task<PagedList<CompanyDto>> SearchCompaniesByLoggedInManager(int userId, RequestTableBodyDto request);
         public Task<PagedList<CategoryDto>> SearchCategories(RequestTableBodyDto request);
         public Task<PagedList<CompanyDto>> SearchCompanies(RequestTableBodyDto request);
-
+        public Task<PagedList<CurrencyDto>> SearchCurrencies(RequestTableBodyDto request);
+        public Task<PagedList<BankDto>> SearchBanks(RequestTableBodyDto request);
         public Task<IEnumerable<EmployeeDto>> EmployeesTable(string userId, int companyId, RequestTableBodyDto request);
         public Task<IEnumerable<CompanyDto>> CompanyTable(RequestTableBodyDto request);
         public Task<IEnumerable<CategoryDto>> CategoriesTable(RequestTableBodyDto request);
         public Task<IEnumerable<ProductDto>> ProductTable(RequestTableBodyDto request);
+        public Task<IEnumerable<CurrencyDto>> CurrencyTable(RequestTableBodyDto request);
         public Task<IEnumerable<CompanyDto>> CompanyTablePerLoggedInManager(int userId, RequestTableBodyDto request);
-        public Task<IEnumerable<BankAccountDto>> GetBankAccountsForLoggedUser(int userId, RequestTableBodyDto request);
+        public Task<IEnumerable<BankDto>> BanksTable(RequestTableBodyDto request);
 
 
         public Task<CompanyDto> GetCompanyById(int companyId);
         public Task<CategoryDto> GetCategoryById(int categoryId);
         public Task<EmployeeDto> GetEmployeeById(int employeeId);
         public Task<ProductDto> GetProductById(int productId);
-        public Task<BankAccountDto> GetBankAccountById(int bankAccountId);
+        public Task<BankDto> GetBankById(int bankAccountId);
         public Task<CurrencyDto> GetCurrencyById(int currencyId);
         public Task<IEnumerable<CategoryDto>> GetCategoriesForCompanyId(int companyId);
-        public Task<IEnumerable<BankAccountDto>> GetBanksForCurrencyId(int currencyId);
+        public Task<IEnumerable<Entities.DTO.BankDto>> GetBanksForCurrencyId(int currencyId);
         public Task<IEnumerable<CategoryListDto>> GetCategoriesAsList();
+        public Task<IEnumerable<BankListDto>> GetBanksAsList();
+        public Task<IEnumerable<BankDto>> GetBanksPerUser(int userId);
         public Task<IEnumerable<UserDtoManagerList>> GetAllManagers(AutocompleteDto autocomplete);
+
+
+        Task<bool> DeleteBankCurrency(int?[] bankIds, int currencyId);
 
     }
 }

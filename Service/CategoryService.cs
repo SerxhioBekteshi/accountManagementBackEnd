@@ -86,7 +86,7 @@ namespace Service
             {
                 var existingCategory = await _dapperRepository.GetCategoryById(id);
                 if (existingCategory is null)
-                    throw new NotFoundException(string.Format("Kategoria me Id: {0} nuk u gjet!", id));
+                    throw new NotFoundException(string.Format("Category with Id: {0} was not found!", id));
 
                 return existingCategory;
             }
@@ -118,7 +118,7 @@ namespace Service
             }
             catch (Exception ex)
             {
-                _logger.LogError(string.Format("{0}: {1}", nameof(GetRecordById), ex.Message));
+                _logger.LogError(string.Format("{0}: {1}", nameof(GetCategoriesAsAList), ex.Message));
                 throw new BadRequestException(ex.Message);
             }
         
